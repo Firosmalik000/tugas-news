@@ -1,17 +1,15 @@
-// const search = document.querySelector('.search-button');
+const search = document.querySelector('.search-button');
 const inputKeyword = document.querySelector('.input-keyword');
 let newsData = [];
-// search.addEventListener('click', function () {
-//   try {
-//     const news = inputKeyword.value;
-//     displayNews(news);
-//   } catch (err) {
-//     alert('Tidak ada data yang ditemukan');
-//   }
-// });
+
+search.addEventListener('click', function (e) {
+  e.preventDefault;
+  const keyword = inputKeyword.value;
+  fetchNews(keyword);
+});
 // Fungsi untuk mengambil data berita dari API
-function fetchNews() {
-  return fetch('https://newsapi.org/v2/top-headlines?country=id&apiKey=b1fcac5f23714f5ab2582ce347bbff75&s=google-news')
+function fetchNews(keyword) {
+  return fetch(`https://newsapi.org/v2/everything?q=${keyword}&apiKey=b1fcac5f23714f5ab2582ce347bbff75`)
     .then((response) => {
       if (!response.ok) {
         throw new Error(response.statusText);
@@ -30,7 +28,7 @@ function fetchNews() {
 // Fungsi untuk menampilkan berita dalam bentuk kartu
 function displayNews(data) {
   const newsContainer = document.getElementById('news-container');
-
+  newsContainer.innerHTML = '';
   data.forEach((article) => {
     // Buat kartu berita menggunakan Bootstrap
     const card = document.createElement('div');
@@ -55,7 +53,7 @@ function filterArticle(query) {
   const filterNews = newsData.filter((e) => e.title.toLowerCase().includes(query));
   displayNews(filterNews);
 }
-fetchNews();
+fetchNews('covid');
 
 function showData(article) {
   return `
